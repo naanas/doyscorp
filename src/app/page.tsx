@@ -1,103 +1,110 @@
-import Image from "next/image";
+// src/app/page.tsx
+import Image from 'next/image'; // Pastikan Image diimpor
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <>
+      <header>
+        <div className="container">
+          <Link href="/" className="logo">
+            {/* Tambahkan Image komponen di sini */}
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/images/logo.png" // Path ke logo Anda di folder public/images
+              alt="DoysCorp Logo"
+              width={100} // Sesuaikan lebar sesuai kebutuhan
+              height={100} // Sesuaikan tinggi sesuai kebutuhan
+              priority // Rekomendasi untuk logo di header agar dimuat lebih cepat
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </Link>
+          <nav>
+            <ul>
+              <li>
+                <Link href="#hero">Beranda</Link>
+              </li>
+              <li>
+                <Link href="#services">Layanan</Link>
+              </li>
+              <li>
+                <Link href="#contact">Kontak</Link>
+              </li>
+            </ul>
+          </nav>
         </div>
+      </header>
+
+      <main>
+        <section id="hero" className="hero">
+          <div className="hero-content">
+            <h1>
+              Wujudkan Ide Anda Menjadi Aplikasi <br /> Mobile & Web yang
+              Menakjubkan
+            </h1>
+            <p>
+              Saya seorang *freelancer* yang berdedikasi dalam menciptakan
+              solusi digital inovatif dan fungsional untuk kebutuhan bisnis
+              Anda.
+            </p>
+            <Link href="#contact" className="btn">
+              Mulai Proyek Anda Sekarang
+            </Link>
+          </div>
+        </section>
+
+        <section id="services" className="services">
+          <div className="container">
+            <h2>Layanan Saya</h2>
+            <div className="service-grid">
+              <div className="service-card">
+                <Image
+                  src="/images/mobile-dev-icon.png"
+                  alt="Mobile App Development Icon"
+                  width={80} // Set appropriate width
+                  height={80} // Set appropriate height
+                />
+                <h3>Pengembangan Aplikasi Mobile</h3>
+                <p>
+                  Membangun aplikasi Android & iOS yang intuitif, cepat, dan
+                  kaya fitur, memastikan pengalaman pengguna yang luar biasa.
+                </p>
+              </div>
+              <div className="service-card">
+                <Image
+                  src="/images/web-dev-icon.png"
+                  alt="Web Development Icon"
+                  width={80} // Set appropriate width
+                  height={80} // Set appropriate height
+                />
+                <h3>Pengembangan Aplikasi Web</h3>
+                <p>
+                  Menciptakan *website* dan aplikasi *web* modern yang
+                  responsif, aman, dan berkinerja tinggi menggunakan teknologi
+                  terkini.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" className="cta">
+          <div className="container">
+            <h2>Siap Membangun Impian Anda?</h2>
+            <p>
+              Mari diskusikan proyek Anda. Saya siap membantu Anda mencapai
+              tujuan digital Anda dengan solusi yang tepat dan inovatif.
+            </p>
+            <a href="mailto:emailanda@example.com" className="btn">
+              Hubungi Saya
+            </a>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer>
+        <div className="container">
+          <p>&copy; 2025 DoysCorp. Semua Hak Dilindungi.</p> {/* Ubah juga di footer */}
+        </div>
       </footer>
-    </div>
+    </>
   );
 }
