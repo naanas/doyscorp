@@ -598,8 +598,8 @@ footer {
     font-size: 1em;
   }
   .hero-lottie-bg {
-    width: 200vw; /* Lebar lebih besar untuk viewport mobile agar meluber */
-    height: 25vh; /* Tinggi yang disesuaikan untuk mobile */
+    width: 100%; /* Lebar lebih besar untuk viewport mobile agar meluber */
+    height: 200%; /* Tinggi yang disesuaikan untuk mobile */
     top: auto; /* Hapus penyesuaian top spesifik di mobile */
     bottom: 0; /* Pastikan selalu di bawah */
   }
@@ -623,7 +623,7 @@ footer {
     font-size: 0.9em;
   }
   .hero-lottie-bg {
-    width: 250vw; /* Lebih lebar lagi untuk layar sangat kecil */
-    height: 20vh; /* Tinggi lebih kecil lagi */
+    width: 150%; /* Lebih lebar lagi untuk layar sangat kecil */
+    height: 120%; /* Tinggi lebih kecil lagi */
   }
 }
