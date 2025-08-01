@@ -136,6 +136,7 @@ header .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative; /* Penting untuk positioning menu mobile */
 }
 
 .logo {
@@ -159,6 +160,7 @@ header .container {
   /* Menambahkan margin atas dan bawah pada gambar logo */
   margin-top: -25px;    /* Memberikan jarak 5px di atas gambar logo */
   margin-bottom: -25px; /* Memberikan jarak 5px di bawah gambar logo */
+  margin-left: -350%;
 }
 
 .logo span {
@@ -169,6 +171,7 @@ header .container {
   display: inline-block; /* Penting agar gradient bekerja pada span */
 }
 
+/* Gaya default untuk desktop */
 nav ul {
   list-style: none;
   display: flex;
@@ -190,6 +193,41 @@ nav ul li a:hover {
   transform: translateY(-3px);
 }
 
+/* Hamburger Menu Icon */
+.hamburger-menu {
+  display: none; /* Sembunyikan secara default di desktop */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1100; /* Pastikan di atas menu nav */
+}
+
+.hamburger-menu .line {
+  width: 100%;
+  height: 3px;
+  background-color: var(--text-light);
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Animasi ikon Hamburger menjadi X */
+.hamburger-menu .line:nth-child(1).open {
+  transform: translateY(11px) rotate(45deg);
+}
+
+.hamburger-menu .line:nth-child(2).open {
+  opacity: 0;
+}
+
+.hamburger-menu .line:nth-child(3).open {
+  transform: translateY(-11px) rotate(-45deg);
+}
+
 /* Hero Section */
 .hero {
   height: 100vh;
@@ -204,11 +242,11 @@ nav ul li a:hover {
 /* Gaya untuk Lottie background */
 .hero-lottie-bg {
   position: absolute;
-  top: 65%; /* Sesuaikan posisi vertikal agar Lottie muncul sedikit di bawah teks */
+  bottom: 0; /* Mengatur posisi di bagian bawah hero section */
   left: 50%;
-  transform: translate(-50%, -50%); /* Pusatkan elemen secara horizontal dan vertikal */
-  width: 200%; /* Dibuat lebih lebar dari 100% agar memenuhi seluruh layar */
-  height: 100%; /* Atau sesuaikan dengan kebutuhan spesifik animasi Lottie Anda */
+  transform: translateX(-50%); /* Memusatkan elemen secara horizontal */
+  width: 100%; /* Menggunakan viewport width agar pasti meluber */
+  height: 100%; /* Mengatur tinggi relatif terhadap viewport height */
   z-index: 0; /* Pastikan Lottie berada di belakang konten dan overlay */
   /* Lottie component akan menangani penskalaan animasi di dalam div ini */
 }
@@ -315,8 +353,8 @@ nav ul li a:hover {
 }
 
 .service-card img {
-  width: 80px; /* Diatur juga di page.tsx, ini sebagai fallback atau override */
-  height: 80px; /* Diatur juga di page.tsx, ini sebagai fallback atau override */
+  width: 80px;
+  height: 80px;
   margin-bottom: 25px;
   animation: pulse 2s infinite ease-in-out;
 }
@@ -330,6 +368,95 @@ nav ul li a:hover {
 .service-card p {
   font-size: 1.1em;
   color: var(--text-light);
+}
+
+/* Bagian Portofolio Baru */
+.portfolio {
+  padding: 80px 0;
+  text-align: center;
+  background: var(--dark-bg);
+}
+
+.portfolio h2 {
+  font-size: 2.8em;
+  margin-bottom: 60px;
+  color: var(--primary-color);
+  animation: fadeIn 1s ease-out;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+  padding: 0 20px;
+}
+
+.portfolio-card {
+  background: var(--card-bg);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  animation: fadeIn 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+/* Staggered animation for portfolio cards */
+.portfolio-grid .portfolio-card:nth-child(1) { animation-delay: 0.2s; }
+.portfolio-grid .portfolio-card:nth-child(2) { animation-delay: 0.4s; }
+.portfolio-grid .portfolio-card:nth-child(3) { animation-delay: 0.6s; }
+.portfolio-grid .portfolio-card:nth-child(4) { animation-delay: 0.8s; }
+.portfolio-grid .portfolio-card:nth-child(5) { animation-delay: 1.0s; }
+.portfolio-grid .portfolio-card:nth-child(6) { animation-delay: 1.2s; }
+
+
+.portfolio-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.portfolio-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-bottom: 3px solid var(--secondary-color);
+}
+
+.portfolio-info {
+  padding: 25px;
+  text-align: left;
+}
+
+.portfolio-info h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: var(--secondary-color);
+}
+
+.portfolio-info p {
+  font-size: 1em;
+  margin-bottom: 15px;
+  color: var(--text-light);
+}
+
+.project-tag {
+  display: inline-block;
+  background: rgba(var(--primary-color), 0.2);
+  color: var(--primary-color);
+  font-size: 0.85em;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.project-tag:hover {
+  background: var(--primary-color);
+  color: white;
 }
 
 /* Call to Action Section */
@@ -393,9 +520,64 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  header .container {
+    flex-wrap: wrap; /* Izinkan item untuk membungkus jika perlu */
+    justify-content: space-between; /* Untuk menempatkan logo dan hamburger di ujung */
+  }
+
+  /* Tampilkan hamburger menu di layar kecil */
+  .hamburger-menu {
+    display: flex; /* Jadikan terlihat */
+    margin-left: auto; /* Dorong ke kanan jika perlu */
+  }
+
+  /* Sembunyikan navbar di layar kecil secara default */
+  nav {
+    position: absolute;
+    top: 100%; /* Tempatkan di bawah header */
+    left: 0;
+    width: 100%;
+    background: rgba(26, 26, 46, 0.95); /* Background untuk menu slide-in */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    transform: translateY(-100%); /* Sembunyikan ke atas */
+    opacity: 0;
+    pointer-events: none; /* Nonaktifkan interaksi saat tersembunyi */
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+    display: flex; /* Ensure it's a flex container for its items */
+    flex-direction: column; /* Tumpuk item secara vertikal */
+    align-items: center; /* Pusatkan item secara horizontal */
+    padding: 20px 0;
+  }
+
+  /* Tampilkan navbar saat menu terbuka */
+  nav.open {
+    transform: translateY(0); /* Munculkan menu */
+    opacity: 1;
+    pointer-events: auto; /* Aktifkan interaksi */
+  }
+
+  nav ul {
+    flex-direction: column; /* Item navigasi ditumpuk vertikal */
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+
+  nav ul li {
+    margin: 15px 0; /* Jarak antar item menu */
+    width: 100%;
+  }
+
+  nav ul li a {
+    font-size: 1.2em; /* Ukuran font lebih besar untuk mobile */
+    display: block; /* Buat link mengisi lebar penuh */
+    padding: 10px 0;
+  }
+
   .hero h1 {
     font-size: 2.5em;
-    margin-top: -90%;
+    /* margin-top: -90%; -- Baris ini telah dihapus */
   }
   .hero p {
     font-size: 1em;
@@ -403,16 +585,12 @@ footer {
   .service-grid {
     grid-template-columns: 1fr;
   }
-  nav ul {
-    flex-direction: column;
-    margin-top: 1px;
+  
+  .portfolio-grid {
+    grid-template-columns: 1fr; /* Satu kolom di mobile */
+    padding: 0 10px;
   }
-  nav ul li {
-    margin: 10px 0;
-  }
-  header .container {
-    flex-direction: column;
-  }
+
   .cta h2 {
     font-size: 2em;
   }
@@ -420,8 +598,10 @@ footer {
     font-size: 1em;
   }
   .hero-lottie-bg {
-    width: 250%; /* Lebih lebar lagi untuk layar kecil agar tetap memenuhi */
-    top: 20%; /* Mungkin perlu sedikit penyesuaian lagi di mobile */
+    width: 200vw; /* Lebar lebih besar untuk viewport mobile agar meluber */
+    height: 25vh; /* Tinggi yang disesuaikan untuk mobile */
+    top: auto; /* Hapus penyesuaian top spesifik di mobile */
+    bottom: 0; /* Pastikan selalu di bawah */
   }
 }
 
@@ -443,6 +623,7 @@ footer {
     font-size: 0.9em;
   }
   .hero-lottie-bg {
-    width: 300%; /* Bisa jadi perlu lebih besar lagi */
+    width: 250vw; /* Lebih lebar lagi untuk layar sangat kecil */
+    height: 20vh; /* Tinggi lebih kecil lagi */
   }
 }
