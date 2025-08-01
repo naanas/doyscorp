@@ -157,9 +157,8 @@ header .container {
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); /* Sedikit efek shadow pada logo */
 
   /* Menambahkan margin atas dan bawah pada gambar logo */
-  margin-top: -25px; /* Contoh margin atas: 5px */
-  margin-bottom: -25px; /* Contoh margin bawah: 5px */
-  /* Border dan padding yang sebelumnya untuk border telah dihapus */
+  margin-top: -25px;    /* Memberikan jarak 5px di atas gambar logo */
+  margin-bottom: -25px; /* Memberikan jarak 5px di bawah gambar logo */
 }
 
 .logo span {
@@ -193,14 +192,25 @@ nav ul li a:hover {
 
 /* Hero Section */
 .hero {
-  background: url('/images/hero-bg.png') no-repeat center center/cover; /* Placeholder image */
   height: 100vh;
   display: flex;
   align-items: center;
   text-align: center;
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* Penting untuk menyembunyikan bagian Lottie yang meluber */
   color: white;
+}
+
+/* Gaya untuk Lottie background */
+.hero-lottie-bg {
+  position: absolute;
+  top: 65%; /* Sesuaikan posisi vertikal agar Lottie muncul sedikit di bawah teks */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Pusatkan elemen secara horizontal dan vertikal */
+  width: 200%; /* Dibuat lebih lebar dari 100% agar memenuhi seluruh layar */
+  height: 100%; /* Atau sesuaikan dengan kebutuhan spesifik animasi Lottie Anda */
+  z-index: 0; /* Pastikan Lottie berada di belakang konten dan overlay */
+  /* Lottie component akan menangani penskalaan animasi di dalam div ini */
 }
 
 .hero::before {
@@ -210,13 +220,13 @@ nav ul li a:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 1;
+  background: rgba(0, 0, 0, 0.6); /* Overlay untuk memastikan teks terbaca */
+  z-index: 1; /* Di atas Lottie, di bawah konten */
 }
 
 .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 2; /* Pastikan konten berada di atas Lottie dan overlay */
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
@@ -304,8 +314,6 @@ nav ul li a:hover {
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
 }
 
-/* next/image component pada service-card akan memiliki class "next-image" secara default */
-/* jadi kita bisa targetkan styling untuk img di dalam service-card seperti ini */
 .service-card img {
   width: 80px; /* Diatur juga di page.tsx, ini sebagai fallback atau override */
   height: 80px; /* Diatur juga di page.tsx, ini sebagai fallback atau override */
@@ -387,6 +395,7 @@ footer {
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 2.5em;
+    margin-top: -90%;
   }
   .hero p {
     font-size: 1em;
@@ -396,7 +405,7 @@ footer {
   }
   nav ul {
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 1px;
   }
   nav ul li {
     margin: 10px 0;
@@ -409,6 +418,10 @@ footer {
   }
   .cta p {
     font-size: 1em;
+  }
+  .hero-lottie-bg {
+    width: 250%; /* Lebih lebar lagi untuk layar kecil agar tetap memenuhi */
+    top: 20%; /* Mungkin perlu sedikit penyesuaian lagi di mobile */
   }
 }
 
@@ -428,5 +441,8 @@ footer {
   }
   .service-card p {
     font-size: 0.9em;
+  }
+  .hero-lottie-bg {
+    width: 300%; /* Bisa jadi perlu lebih besar lagi */
   }
 }
