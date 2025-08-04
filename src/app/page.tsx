@@ -42,7 +42,8 @@ export default function Home() {
     };
 
     // Fungsi callback generik untuk observer
-    const createSectionObserver = (setVisibleState) => {
+-    const createSectionObserver = (setVisibleState) => {
++    const createSectionObserver = (setVisibleState: React.Dispatch<React.SetStateAction<boolean>>) => {
       // PERBAIKAN: Gunakan argumen kedua (observerInstance) di callback IntersectionObserver
       return new IntersectionObserver((entries, observerInstance) => {
         entries.forEach(entry => {
