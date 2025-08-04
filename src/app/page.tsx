@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Lottie from 'lottie-react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, Dispatch, SetStateAction } from 'react'; // Import Dispatch dan SetStateAction
 
 // Pastikan jalur ini benar relatif terhadap file page.tsx
 import waveBackgroundAnimation from '../../public/animations/lop.json';
@@ -42,8 +42,7 @@ export default function Home() {
     };
 
     // Fungsi callback generik untuk observer
--    const createSectionObserver = (setVisibleState) => {
-+    const createSectionObserver = (setVisibleState: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const createSectionObserver = (setVisibleState: Dispatch<SetStateAction<boolean>>) => {
       // PERBAIKAN: Gunakan argumen kedua (observerInstance) di callback IntersectionObserver
       return new IntersectionObserver((entries, observerInstance) => {
         entries.forEach(entry => {
