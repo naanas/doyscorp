@@ -17,6 +17,11 @@
   box-sizing: border-box;
 }
 
+/* Mengaktifkan smooth scrolling untuk navigasi anchor link */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   line-height: 1.6;
@@ -28,10 +33,10 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 20px; /* Default padding desktop */
 }
 
-/* Animations */
+/* Animations Keyframes */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -123,52 +128,55 @@ body {
 /* Header */
 header {
   background: rgba(26, 26, 46, 0.8);
-  padding: 20px 0;
+  padding: 20px 0; /* Default padding saat di atas */
   position: sticky;
   top: 0;
   z-index: 1000;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Animasi ini tetap berjalan saat page load */
   animation: fadeIn 0.8s ease-out;
+  /* Transisi untuk properti yang berubah saat di-scroll */
+  transition: all 0.3s ease-in-out;
 }
+
+/* Gaya header saat di-scroll ke bawah (kelas 'scrolled' ditambahkan) */
+header.scrolled {
+  background: rgba(26, 26, 46, 0.95); /* Sedikit lebih gelap/opak */
+  padding: 10px 0; /* Padding lebih kecil, membuat header mengecil */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Bayangan lebih menonjol */
+}
+
 
 header .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative; /* Penting untuk positioning menu mobile */
+  position: relative;
 }
 
 .logo {
-  font-size: 1.8em; /* Ukuran font untuk teks di dalam logo */
-  font-weight: 700;
-  color: var(--text-light); /* Warna fallback jika gradient tidak didukung */
+  /* Hapus properti font-size, font-weight, color karena logo adalah gambar */
   text-decoration: none;
-  
-  /* Properitas untuk menata logo (gambar) dan teks (span) */
-  display: flex; /* Mengatur elemen di dalamnya menjadi flex container */
-  align-items: center; /* Menyelaraskan item secara vertikal di tengah */
-  gap: 10px; /* Memberikan jarak antara logo (gambar) dan teks (span) */
+  display: flex; /* Logo adalah Link yang berisi Image */
+  align-items: center;
+  gap: 10px; /* Jarak antara image dan teks (jika ada) */
 }
 
 .logo img {
-  /* Memastikan gambar logo tidak terpengaruh oleh background-clip teks */
-  -webkit-background-clip: unset; /* Reset background-clip jika terwarisi */
-  -webkit-text-fill-color: unset; /* Reset text-fill-color jika terwarisi */
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); /* Sedikit efek shadow pada logo */
-
-  /* Menambahkan margin atas dan bawah pada gambar logo */
-  margin-top: -25px;    /* Memberikan jarak 5px di atas gambar logo */
-  margin-bottom: -25px; /* Memberikan jarak 5px di bawah gambar logo */
-  margin-left: -350%;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+  /* Hapus margin negatif yang bermasalah */
+  margin: 0;
+  /* Transisi untuk ukuran gambar logo saat di-scroll */
+  transition: all 0.3s ease-in-out;
 }
 
-.logo span {
-  /* Terapkan gradient pada teks span */
-  background: var(--gradient-1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block; /* Penting agar gradient bekerja pada span */
+
+/* Ukuran logo lebih kecil saat header di-scroll */
+header.scrolled .logo img {
+  width: 70px;
+  height: 70px;
+  margin: 0; /* Pastikan margin 0 saat di-scroll juga */
 }
 
 /* Gaya default untuk desktop */
@@ -185,13 +193,20 @@ nav ul li a {
   color: var(--text-light);
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.3s ease, transform 0.3s ease;
+  /* Transisi untuk warna, transformasi, dan ukuran font link navigasi */
+  transition: color 0.3s ease, transform 0.3s ease, font-size 0.3s ease;
 }
 
 nav ul li a:hover {
   color: var(--secondary-color);
   transform: translateY(-3px);
 }
+
+/* Ukuran font link navigasi lebih kecil saat header di-scroll */
+header.scrolled nav ul li a {
+  font-size: 0.9em;
+}
+
 
 /* Hamburger Menu Icon */
 .hamburger-menu {
@@ -239,16 +254,18 @@ nav ul li a:hover {
   color: white;
 }
 
-/* Gaya untuk Lottie background */
+/* Gaya untuk Lottie background - disesuaikan agar lebih konsisten */
 .hero-lottie-bg {
   position: absolute;
-  bottom: 0; /* Mengatur posisi di bagian bawah hero section */
+  /* Gunakan top/left/transform untuk centering agar lebih fleksibel dengan ukuran besar */
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%); /* Memusatkan elemen secara horizontal */
-  width: 100%; /* Menggunakan viewport width agar pasti meluber */
-  height: 100%; /* Mengatur tinggi relatif terhadap viewport height */
-  z-index: 0; /* Pastikan Lottie berada di belakang konten dan overlay */
-  /* Lottie component akan menangani penskalaan animasi di dalam div ini */
+  transform: translate(-50%, -50%); /* Centering both horizontally and vertically */
+  bottom: unset; /* Hapus properti bottom yang bertentangan */
+  width: 120%; /* Default width for desktop/larger screens */
+  height: 120%; /* Default height for desktop/larger screens */
+  z-index: 0;
+  overflow: hidden; /* Pastikan container ini tidak menyebabkan scrollbar */
 }
 
 .hero::before {
@@ -258,18 +275,19 @@ nav ul li a:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6); /* Overlay untuk memastikan teks terbaca */
-  z-index: 1; /* Di atas Lottie, di bawah konten */
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
 }
 
 .hero-content {
   position: relative;
-  z-index: 2; /* Pastikan konten berada di atas Lottie dan overlay */
+  z-index: 2;
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
 }
 
+/* Animasi konten Hero tetap berjalan saat page load */
 .hero h1 {
   font-size: 3.5em;
   margin-bottom: 20px;
@@ -285,7 +303,6 @@ nav ul li a:hover {
   margin-bottom: 30px;
   animation: fadeIn 1.2s ease-out forwards;
   animation-delay: 0.5s;
-  opacity: 0;
 }
 
 .hero .btn {
@@ -300,7 +317,6 @@ nav ul li a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: scaleIn 1s ease-out forwards;
   animation-delay: 1s;
-  opacity: 0;
 }
 
 .hero .btn:hover {
@@ -309,9 +325,124 @@ nav ul li a:hover {
   animation: none; /* Stop initial animation on hover */
 }
 
+/* ============================================== */
+/* CSS untuk Animasi Saat Scrolling (Section Masuk Viewport) */
+/* ============================================== */
+
+/* Status Awal (Tersembunyi) untuk elemen yang akan dianimasikan saat scroll */
+/* Umum untuk fadeIn */
+.services h2,
+.service-card,
+.portfolio h2,
+.portfolio-card,
+footer {
+  opacity: 0;
+  transform: translateY(20px);
+  /* Transisi fallback jika JS lambat atau tidak ada */
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Khusus untuk slideInLeft/Right */
+.cta h2 {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.cta p {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Khusus untuk scaleIn */
+.cta .btn {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+
+/* Animasi yang dipicu ketika section memiliki kelas 'section-animated' */
+
+/* Services Section */
+.services.section-animated h2 {
+  animation: fadeIn 1s ease-out forwards;
+  opacity: 1;
+  transform: translateY(0);
+}
+.services.section-animated .service-card {
+  animation: scaleIn 0.8s ease-out forwards;
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Staggered animation untuk service cards */
+.services.section-animated .service-card:nth-child(1) { animation-delay: 0.2s; }
+.services.section-animated .service-card:nth-child(2) { animation-delay: 0.4s; }
+
+
+/* Portfolio Section */
+.portfolio.section-animated h2 {
+  animation: fadeIn 1s ease-out forwards;
+  opacity: 1;
+  transform: translateY(0);
+}
+.portfolio.section-animated .portfolio-card {
+  animation: fadeIn 0.8s ease-out forwards;
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Staggered animation untuk portfolio cards */
+.portfolio.section-animated .portfolio-card:nth-child(1) { animation-delay: 0.2s; }
+.portfolio.section-animated .portfolio-card:nth-child(2) { animation-delay: 0.4s; }
+.portfolio.section-animated .portfolio-card:nth-child(3) { animation-delay: 0.6s; }
+.portfolio.section-animated .portfolio-card:nth-child(4) { animation-delay: 0.8s; }
+.portfolio.section-animated .portfolio-card:nth-child(5) { animation-delay: 1.0s; }
+.portfolio.section-animated .portfolio-card:nth-child(6) { animation-delay: 1.2s; }
+
+
+/* Call to Action Section */
+.cta.section-animated h2 {
+  animation: slideInLeft 1s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 1;
+  transform: translateX(0);
+}
+.cta.section-animated p {
+  animation: slideInRight 1s ease-out forwards;
+  animation-delay: 0.4s;
+  opacity: 1;
+  transform: translateX(0);
+}
+.cta.section-animated .btn {
+  animation: scaleIn 1s ease-out forwards;
+  animation-delay: 0.6s;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Footer */
+footer.section-animated {
+  animation: fadeIn 1s ease-out forwards;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animasi pulse untuk service-card img tetap berjalan secara terus-menerus */
+.service-card img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 25px;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* ============================================== */
+/* End Animasi Saat Scrolling (Section Masuk Viewport) */
+/* ============================================== */
+
+
 /* Services Section */
 .services {
-  padding: 80px 0;
+  padding: 80px 0; /* Default desktop */
   text-align: center;
   background: var(--dark-bg);
 }
@@ -320,7 +451,6 @@ nav ul li a:hover {
   font-size: 2.8em;
   margin-bottom: 60px;
   color: var(--primary-color);
-  animation: fadeIn 1s ease-out;
 }
 
 .service-grid {
@@ -331,32 +461,15 @@ nav ul li a:hover {
 
 .service-card {
   background: var(--card-bg);
-  padding: 40px;
+  padding: 40px; /* Default desktop */
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: scaleIn 0.8s ease-out forwards;
-  opacity: 0;
-  transform: translateY(20px);
-}
-/* Staggered animation for service cards */
-.service-card:nth-child(1) {
-  animation-delay: 0.2s;
-}
-.service-card:nth-child(2) {
-  animation-delay: 0.4s;
 }
 
 .service-card:hover {
   transform: translateY(-10px) scale(1.02);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-}
-
-.service-card img {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 25px;
-  animation: pulse 2s infinite ease-in-out;
 }
 
 .service-card h3 {
@@ -372,7 +485,7 @@ nav ul li a:hover {
 
 /* Bagian Portofolio Baru */
 .portfolio {
-  padding: 80px 0;
+  padding: 80px 0; /* Default desktop */
   text-align: center;
   background: var(--dark-bg);
 }
@@ -381,7 +494,6 @@ nav ul li a:hover {
   font-size: 2.8em;
   margin-bottom: 60px;
   color: var(--primary-color);
-  animation: fadeIn 1s ease-out;
 }
 
 .portfolio-grid {
@@ -399,18 +511,7 @@ nav ul li a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
   color: inherit;
-  animation: fadeIn 0.8s ease-out forwards;
-  opacity: 0;
-  transform: translateY(20px);
 }
-/* Staggered animation for portfolio cards */
-.portfolio-grid .portfolio-card:nth-child(1) { animation-delay: 0.2s; }
-.portfolio-grid .portfolio-card:nth-child(2) { animation-delay: 0.4s; }
-.portfolio-grid .portfolio-card:nth-child(3) { animation-delay: 0.6s; }
-.portfolio-grid .portfolio-card:nth-child(4) { animation-delay: 0.8s; }
-.portfolio-grid .portfolio-card:nth-child(5) { animation-delay: 1.0s; }
-.portfolio-grid .portfolio-card:nth-child(6) { animation-delay: 1.2s; }
-
 
 .portfolio-card:hover {
   transform: translateY(-10px) scale(1.02);
@@ -425,7 +526,7 @@ nav ul li a:hover {
 }
 
 .portfolio-info {
-  padding: 25px;
+  padding: 25px; /* Default desktop */
   text-align: left;
 }
 
@@ -462,18 +563,14 @@ nav ul li a:hover {
 /* Call to Action Section */
 .cta {
   background: var(--gradient-1);
-  padding: 80px 0;
+  padding: 80px 0; /* Default desktop */
   text-align: center;
   color: white;
-  animation: fadeIn 1s ease-out;
 }
 
 .cta h2 {
   font-size: 2.5em;
   margin-bottom: 25px;
-  animation: slideInLeft 1s ease-out forwards;
-  opacity: 0;
-  animation-delay: 0.2s;
 }
 
 .cta p {
@@ -482,9 +579,6 @@ nav ul li a:hover {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
-  animation: slideInRight 1s ease-out forwards;
-  opacity: 0;
-  animation-delay: 0.4s;
 }
 
 .cta .btn {
@@ -496,9 +590,6 @@ nav ul li a:hover {
   font-weight: 700;
   font-size: 1.2em;
   transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-  animation: scaleIn 1s ease-out forwards;
-  opacity: 0;
-  animation-delay: 0.6s;
 }
 
 .cta .btn:hover {
@@ -513,51 +604,81 @@ footer {
   background: #10101a;
   color: var(--text-light);
   text-align: center;
-  padding: 30px 0;
+  padding: 30px 0; /* Default desktop */
   font-size: 0.9em;
-  animation: fadeIn 1s ease-out;
 }
 
-/* Responsive Design */
+/* ============================================== */
+/* Responsive Design Adjustments */
+/* ============================================== */
+
+@media (max-width: 1024px) {
+  /* Adjustments for smaller desktops and tablets (landscape) */
+  .hero h1 {
+    font-size: 3em;
+  }
+  .hero p {
+    font-size: 1.2em;
+  }
+  .services h2,
+  .portfolio h2,
+  .cta h2 {
+    font-size: 2.5em;
+  }
+  .service-card h3 {
+    font-size: 1.6em;
+  }
+  .service-card p {
+    font-size: 1em;
+  }
+  .portfolio-info h3 {
+    font-size: 1.4em;
+  }
+  .portfolio-info p {
+    font-size: 0.95em;
+  }
+}
+
 @media (max-width: 768px) {
+  /* Adjustments for tablets (portrait) and larger phones (landscape) */
   header .container {
-    flex-wrap: wrap; /* Izinkan item untuk membungkus jika perlu */
-    justify-content: space-between; /* Untuk menempatkan logo dan hamburger di ujung */
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   /* Tampilkan hamburger menu di layar kecil */
   .hamburger-menu {
-    display: flex; /* Jadikan terlihat */
-    margin-left: auto; /* Dorong ke kanan jika perlu */
+    display: flex;
+    margin-left: auto;
   }
 
   /* Sembunyikan navbar di layar kecil secara default */
   nav {
     position: absolute;
-    top: 100%; /* Tempatkan di bawah header */
+    top: 100%;
     left: 0;
     width: 100%;
-    background: rgba(26, 26, 46, 0.95); /* Background untuk menu slide-in */
+    background: rgba(26, 26, 46, 0.95);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-    transform: translateY(-100%); /* Sembunyikan ke atas */
+    transform: translateY(-100%);
     opacity: 0;
-    pointer-events: none; /* Nonaktifkan interaksi saat tersembunyi */
+    pointer-events: none;
     transition: transform 0.4s ease-out, opacity 0.4s ease-out;
-    display: flex; /* Ensure it's a flex container for its items */
-    flex-direction: column; /* Tumpuk item secara vertikal */
-    align-items: center; /* Pusatkan item secara horizontal */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px 0;
   }
 
   /* Tampilkan navbar saat menu terbuka */
   nav.open {
-    transform: translateY(0); /* Munculkan menu */
+    transform: translateY(0);
     opacity: 1;
-    pointer-events: auto; /* Aktifkan interaksi */
+    pointer-events: auto;
   }
 
   nav ul {
-    flex-direction: column; /* Item navigasi ditumpuk vertikal */
+    flex-direction: column;
     width: 100%;
     padding: 0;
     margin: 0;
@@ -565,30 +686,44 @@ footer {
   }
 
   nav ul li {
-    margin: 15px 0; /* Jarak antar item menu */
+    margin: 15px 0;
     width: 100%;
   }
 
   nav ul li a {
-    font-size: 1.2em; /* Ukuran font lebih besar untuk mobile */
-    display: block; /* Buat link mengisi lebar penuh */
+    font-size: 1.2em;
+    display: block;
     padding: 10px 0;
   }
 
   .hero h1 {
     font-size: 2.5em;
-    /* margin-top: -90%; -- Baris ini telah dihapus */
   }
   .hero p {
     font-size: 1em;
   }
+  
+  /* Sections padding reduced for mobile */
+  .services, .portfolio, .cta {
+    padding: 60px 0;
+  }
+  footer {
+    padding: 25px 0;
+  }
+
   .service-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Satu kolom di mobile */
+  }
+  .service-card {
+    padding: 30px; /* Padding kartu disesuaikan */
   }
   
   .portfolio-grid {
     grid-template-columns: 1fr; /* Satu kolom di mobile */
     padding: 0 10px;
+  }
+  .portfolio-info {
+    padding: 20px; /* Padding info portofolio disesuaikan */
   }
 
   .cta h2 {
@@ -597,24 +732,48 @@ footer {
   .cta p {
     font-size: 1em;
   }
+  .cta .btn {
+    padding: 12px 25px;
+    font-size: 1.05em;
+  }
+
+  /* Lottie background adjustments for mobile/tablet */
   .hero-lottie-bg {
-    width: 100%; /* Lebar lebih besar untuk viewport mobile agar meluber */
-    height: 200%; /* Tinggi yang disesuaikan untuk mobile */
-    top: auto; /* Hapus penyesuaian top spesifik di mobile */
-    bottom: 0; /* Pastikan selalu di bawah */
+    width: 180%; /* Ditingkatkan untuk lebih 'penuh' */
+    height: 150%; /* Ditingkatkan untuk lebih 'penuh' */
+    /* top: 50%; dan transform: translate(-50%, -50%) sudah diterapkan di default style */
   }
 }
 
 @media (max-width: 480px) {
+  /* Adjustments for smartphones (portrait) */
+  .container {
+    padding: 0 15px; /* Padding lebih kecil untuk layar sangat sempit */
+  }
+
   .hero h1 {
     font-size: 2em;
   }
+  .hero p {
+    font-size: 0.95em;
+  }
   .hero .btn {
-    padding: 12px 25px;
+    padding: 10px 20px;
     font-size: 1em;
   }
-  .services h2 {
+
+  .services, .portfolio, .cta {
+    padding: 50px 0;
+  }
+  footer {
+    padding: 20px 0;
+  }
+
+  .services h2,
+  .portfolio h2,
+  .cta h2 {
     font-size: 2em;
+    margin-bottom: 40px;
   }
   .service-card h3 {
     font-size: 1.5em;
@@ -622,8 +781,24 @@ footer {
   .service-card p {
     font-size: 0.9em;
   }
+
+  .portfolio-info h3 {
+    font-size: 1.3em;
+  }
+  .portfolio-info p {
+    font-size: 0.9em;
+  }
+  .project-tag {
+    font-size: 0.8em;
+    padding: 4px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+
+  /* Lottie background adjustments for very small screens */
   .hero-lottie-bg {
-    width: 150%; /* Lebih lebar lagi untuk layar sangat kecil */
-    height: 120%; /* Tinggi lebih kecil lagi */
+    width: 250%; /* Lebih lebar lagi untuk layar sangat kecil */
+    height: 200%; /* Lebih tinggi lagi */
+    /* top: 50%; dan transform: translate(-50%, -50%) sudah diterapkan di default style */
   }
 }
